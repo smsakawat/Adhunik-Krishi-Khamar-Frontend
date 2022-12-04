@@ -33,8 +33,7 @@ const CartSingleProduct = (props) => {
           </div>
           <div className="ms-4">
             {" "}
-            <a href="">
-              {" "}
+            <a href="#">
               <i className="far fa-bookmark text-primary"></i>
             </a>
           </div>

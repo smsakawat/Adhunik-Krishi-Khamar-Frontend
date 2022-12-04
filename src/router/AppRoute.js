@@ -4,26 +4,24 @@ import { Route, Switch } from "react-router-dom";
 import AuthProvider from "../AuthProvider/AuthProvider";
 import AddProduct from "../components/AddProduct/AddProduct";
 import AgroComDetails from "../components/AgroComDetails/AgroComDetails";
-import AgroGib from "../components/AgroGib/AgroGib";
-import Buy from '../components/Buy/Buy';
+import Buy from "../components/Buy/Buy";
 import Cart from "../components/Cart/Cart";
 import Review from "../components/Dashboard/Review/Review";
 import DigitalTechDetails from "../components/DigitalTechDetails/digitalTechDetails";
 import FirmToPakritiDetails from "../components/FrimitoPakritiDetails/FirmToPakritiDetails";
 import Header from "../components/Header/Header";
 import KGovashonaDetails from "../components/KGovashonaDetails/KGovashonaDetails";
-import KGoveshonaTips from "../components/KGoveshonaTips/KGoveshonaTips";
 import KhoborDetails from "../components/KhoborDetails/KhoborDetails";
 import KrishiTipsDetails from "../components/KrishiTips/KrishiTipsDetails";
 import MakeAdmin from "../components/MakeAdmin/MakeAdmin";
 import MotamotDetails from "../components/MotamotDetails/MotamotDetails";
 import OrthonitiDetails from "../components/OrthonitiDetails/OrthonitiDetails";
-import Orthouddug from "../components/Orthouddug/Orthouddug";
 import Payment from "../components/Payment/Payment";
 import PoltryDetails from "../components/PoltryDetails/PoltryDetails";
 import useCart from "../hooks/useCart";
 import { addToDb, clearProducts, deleteFromLocal } from "../LocalDb/LocalDb";
 import AboutPage from "../pages/AboutPage";
+import AgroComPage from "../pages/AgroComPage/AgroComPage";
 import ContactPage from "../pages/ContactPage";
 import CourseDetailsPage from "../pages/CourseDetailsPage";
 import CoursesPage from "../pages/CoursesPage";
@@ -32,6 +30,8 @@ import DocumentsPages from "../pages/DocumentsPages";
 import EcomPage from "../pages/EcomPage";
 import GooglePage from "../pages/GooglePage";
 import HomePage from "../pages/HomePage";
+import KGovashonaPage from "../pages/KGovashonaPage/KGovashonaPage";
+import KrishiCampusPage from "../pages/KrishiCampus/KrishiCampus";
 import KrishiUddugtaPage from "../pages/KrishiUddugtaPage";
 import LoginPage from "../pages/LoginPage";
 import PortfolioPage from "../pages/PortfolioPage";
@@ -156,7 +156,7 @@ function AppRoute() {
               <OrthonitiDetails />
             </Route>
             <Route exact path="/krishiGovashonaProjukti">
-              <KGoveshonaTips />
+              <KGovashonaPage />
             </Route>
             <Route exact path="/firmToDining/:id">
               <FirmToPakritiDetails />
@@ -168,8 +168,8 @@ function AppRoute() {
               <KGovashonaDetails />
             </Route>
             <Route exact path="/krishiuddugta" component={KrishiUddugtaPage} />
-            <Route exact path="/krishiCampus" component={Orthouddug} />
-            <Route exact path="/agroCommunity" component={AgroGib} />
+            <Route exact path="/krishiCampus" component={KrishiCampusPage} />
+            <Route exact path="/agroCommunity" component={AgroComPage} />
           </Switch>
         </Fragment>
       </RemoveContext.Provider>
