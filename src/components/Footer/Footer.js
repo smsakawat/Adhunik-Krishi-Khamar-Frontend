@@ -17,7 +17,8 @@ class Footer extends Component {
               </h1>
               <a
                 className="socialLink"
-                href="https://www.facebook.com/riadchy50/"
+                href="https://www.facebook.com/pritampaul293"
+                target="_blank"
               >
                 <FontAwesomeIcon icon={faFacebook} /> Facebook
               </a>
@@ -25,7 +26,8 @@ class Footer extends Component {
               <br />
               <a
                 className="socialLink"
-                href="https://www.youtube.com/channel/UCWxWb2jj3Qnb5mVSDppikRQ"
+                target="_blank"
+                href="https://www.youtube.com/channel/UCSmjha97uQk3sw9_EMMM8Zw"
               >
                 <FontAwesomeIcon icon={faYoutube} /> Youtube
               </a>

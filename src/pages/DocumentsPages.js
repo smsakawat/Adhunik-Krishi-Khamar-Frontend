@@ -1,29 +1,23 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from "react";
+import Documents from "../components/Documents/Documents";
 import Footer from "../components/Footer/Footer";
 import PageTop from "../components/PageTop/PageTop";
-import TopNavigation from "../components/TopNavigation/TopNavigation";
-import Documents from "../components/Documents/Documents";
-import Header from '../components/Header/Header';
 
 class DocumentsPages extends Component {
-    componentDidMount() {
-        window.scroll(0, 0)
+  componentDidMount() {
+    window.scroll(0, 0);
+  }
 
-    }
+  render() {
+    return (
+      <Fragment>
+        <PageTop pagetitle="Papers Documents" />
+        <Documents />
 
-    render() {
-        return (
-            <Fragment>
-                <Header title="About"/>
-                <PageTop pagetitle="Papers Documents"/>
-                <Documents/>
-
-                <Footer/>
-
-
-            </Fragment>
-        );
-    }
+        <Footer />
+      </Fragment>
+    );
+  }
 }
 
 export default DocumentsPages;

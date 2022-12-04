@@ -1,14 +1,14 @@
 import React from 'react';
-import AppRoute from "./router/AppRoute";
-import {BrowserRouter} from "react-router-dom";
 import { MessengerChat } from "react-messenger-chat-plugin";
+import { BrowserRouter } from "react-router-dom";
+import AppRoute from "./router/AppRoute";
 
 function App() {
     return (
         <BrowserRouter>
             <AppRoute/>
             <MessengerChat
-    pageId="455120307946675"
+    pageId="105702374195107"
     language="English"
     themeColor={"#000000"}
     bottomSpacing={20}

@@ -1,9 +1,28 @@
-import React, { Component, Fragment } from "react";
+import axios from "axios";
+import React, { createContext, Fragment, useEffect, useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import AuthProvider from "../AuthProvider/AuthProvider";
 import AddProduct from "../components/AddProduct/AddProduct";
+import AgroComDetails from "../components/AgroComDetails/AgroComDetails";
+import AgroGib from "../components/AgroGib/AgroGib";
+import Buy from '../components/Buy/Buy';
+import Cart from "../components/Cart/Cart";
+import Review from "../components/Dashboard/Review/Review";
 import DigitalTechDetails from "../components/DigitalTechDetails/digitalTechDetails";
+import FirmToPakritiDetails from "../components/FrimitoPakritiDetails/FirmToPakritiDetails";
+import Header from "../components/Header/Header";
+import KGovashonaDetails from "../components/KGovashonaDetails/KGovashonaDetails";
+import KGoveshonaTips from "../components/KGoveshonaTips/KGoveshonaTips";
 import KhoborDetails from "../components/KhoborDetails/KhoborDetails";
+import KrishiTipsDetails from "../components/KrishiTips/KrishiTipsDetails";
+import MakeAdmin from "../components/MakeAdmin/MakeAdmin";
+import MotamotDetails from "../components/MotamotDetails/MotamotDetails";
+import OrthonitiDetails from "../components/OrthonitiDetails/OrthonitiDetails";
+import Orthouddug from "../components/Orthouddug/Orthouddug";
+import Payment from "../components/Payment/Payment";
+import PoltryDetails from "../components/PoltryDetails/PoltryDetails";
+import useCart from "../hooks/useCart";
+import { addToDb, clearProducts, deleteFromLocal } from "../LocalDb/LocalDb";
 import AboutPage from "../pages/AboutPage";
 import ContactPage from "../pages/ContactPage";
 import CourseDetailsPage from "../pages/CourseDetailsPage";
@@ -24,11 +43,53 @@ import ServicePage from "../pages/ServicePage";
 import TermsPage from "../pages/TermsPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
-class AppRoute extends Component {
-  render() {
-    return (
-      <AuthProvider>
+export const RemoveContext = createContext();
+
+function AppRoute() {
+  const [allProducts, setAllProducts] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:5000/digitalTechnologies/all").then((res) => {
+      setAllProducts(res.data);
+    });
+  }, []);
+
+  const [cart, setCart] = useCart(allProducts);
+
+  const [items, setItems] = useState(0);
+
+  const addToCart = (id) => {
+    const exists = cart.find((course) => course._id === id);
+    if (exists) {
+      return;
+    } else {
+      const newCourse = allProducts.find((course) => course._id === id);
+      const newCart = [...cart, newCourse];
+      setCart(newCart);
+      addToDb(id);
+    }
+  };
+
+  useEffect(() => {
+    setItems(cart.length);
+  }, [cart, addToCart]);
+
+  const handleRemove = (id) => {
+    const remainingProducts = cart.filter((product) => product._id !== id);
+    setCart(remainingProducts);
+    deleteFromLocal(id);
+  };
+
+  const handleBuy = () => {
+    setCart([]);
+    clearProducts();
+  };
+
+  return (
+    <AuthProvider>
+      <RemoveContext.Provider value={[handleRemove, handleBuy]}>
         <Fragment>
+          <Header items={items}></Header>
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/home" component={HomePage} />
@@ -57,19 +118,63 @@ class AppRoute extends Component {
             <Route exact path="/registration" component={RegistrationPage} />
             <Route exact path="/map" component={GooglePage} />
             <Route exact path="/documents" component={DocumentsPages} />
-            <Route exact path="/dashboard/addProduct" component={AddProduct} />
-            <Route exact path="/Ecom" component={EcomPage} />
-            <Route
-              path="/digitalTechnologies/:id"
-              component={DigitalTechDetails}
+            <PrivateRoute
+              exact
+              path="/dashboard/addProduct"
+              component={AddProduct}
             />
+            <Route exact path="/Ecom" component={EcomPage} />
+            <Route exact path="/digitalTechnologies/:id">
+              <DigitalTechDetails addToCart={addToCart}></DigitalTechDetails>
+            </Route>
+            <Route exact path="/cart">
+              <Cart cart={cart}></Cart>
+            </Route>
+            <Route exact path="/poltryDairy/:id">
+              <PoltryDetails />
+            </Route>
+            <PrivateRoute exact path="/payment">
+              <Payment></Payment>
+            </PrivateRoute>
+            <PrivateRoute exact path="/dashboard/review">
+              <Review />
+            </PrivateRoute>
+            <PrivateRoute exact path="/buy">
+              <Buy />
+            </PrivateRoute>
+            <PrivateRoute exact path="/dashboard/makeAdmin">
+              <MakeAdmin />
+            </PrivateRoute>
             <Route path="/recentNews/:id" component={KhoborDetails} />
+            <Route exact path="/motamot/:id">
+              <MotamotDetails />
+            </Route>
+            <Route exact path="/krishiTips/:id">
+              <KrishiTipsDetails />
+            </Route>
+            <Route exact path="/krishiOrthoniti/:id">
+              <OrthonitiDetails />
+            </Route>
+            <Route exact path="/krishiGovashonaProjukti">
+              <KGoveshonaTips />
+            </Route>
+            <Route exact path="/firmToDining/:id">
+              <FirmToPakritiDetails />
+            </Route>
+            <Route exact path="/agroCommunity/:id">
+              <AgroComDetails />
+            </Route>
+            <Route exact path="/govashonaProjukti/:id">
+              <KGovashonaDetails />
+            </Route>
             <Route exact path="/krishiuddugta" component={KrishiUddugtaPage} />
+            <Route exact path="/krishiCampus" component={Orthouddug} />
+            <Route exact path="/agroCommunity" component={AgroGib} />
           </Switch>
         </Fragment>
-      </AuthProvider>
-    );
-  }
+      </RemoveContext.Provider>
+    </AuthProvider>
+  );
 }
 
 export default AppRoute;

@@ -42,11 +42,18 @@ const SignUp = () => {
       .then((result) => {
         // console.log(data);
         // console.log(data.displayName);
-        saveUser(data.email, data.name, data.mobile, data.location, data.nidNo);
+        saveUser(
+          data.email,
+          data.displayName,
+          data.mobile,
+          data.location,
+          data.nidNo,
+          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+        );
         setUser({
           ...user,
           email: data.email,
-          displayName: data.name,
+          displayName: data.displayName,
           mobile: data.mobile,
           location: data.location,
           nidNo: data.nidNo,
@@ -83,7 +90,7 @@ const SignUp = () => {
                   <label className="loginText">Name</label>
                   <input
                     style={{ borderRadius: "20px" }}
-                    {...register("name")}
+                    {...register("displayName")}
                     type="text"
                     className="form-control"
                     placeholder="Enter name"

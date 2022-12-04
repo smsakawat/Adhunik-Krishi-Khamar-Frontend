@@ -1,5 +1,4 @@
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
 import PaymentIcon from "@mui/icons-material/Payment";
@@ -18,7 +17,9 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import axios from "axios";
 import * as React from "react";
+import { useEffect, useState } from "react";
 import {
   Link,
   Route,
@@ -38,8 +39,20 @@ function Dashboard(props) {
   const { url, path } = useRouteMatch();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const { user, logOut } = useAuth();
+  const [admin, setAdmin] = useState(false);
+  console.log(admin);
 
-  const { user, admin, logOut } = useAuth();
+  // cheking if the user is admin or not
+  useEffect(() => {
+    const url = `http://localhost:5000/users/${user.email}`;
+    axios.get(url).then((res) => {
+      const user = res.data[0];
+      if (user?.role === "admin") {
+        setAdmin(true);
+      }
+    });
+  }, []);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -68,6 +81,42 @@ function Dashboard(props) {
           </h3>
         </Toolbar>
         <Divider />
+
+        {/* admin dashboard starts */}
+        {user.email && admin && (
+          <>
+            <ListItem button onClick={() => history.push("/")}>
+              <ListItemIcon>
+                <HomeIcon />
+              </ListItemIcon>
+              <Link to="/" className="drawer-link">
+                <ListItemText>হোম</ListItemText>
+              </Link>
+            </ListItem>
+            <List>
+              <ListItem
+                button
+                onClick={() => history.push(`${url}/addProduct`)}
+              >
+                <ListItemIcon>
+                  <ProductionQuantityLimitsIcon />
+                </ListItemIcon>
+                <Link to={`${url}/addProduct`} className="drawer-link">
+                  <ListItemText>পণ্য যোগ করুন</ListItemText>
+                </Link>
+              </ListItem>
+              <ListItem button onClick={() => history.push(`${url}/makeAdmin`)}>
+                <ListItemIcon>
+                  <AdminPanelSettingsIcon />
+                </ListItemIcon>
+                <Link to="" className="drawer-link">
+                  <ListItemText>অ্যাডমিন করা</ListItemText>
+                </Link>
+              </ListItem>
+            </List>
+          </>
+        )}
+
         {/* user dashboard starts */}
         {user.email && !admin && (
           <List>
@@ -79,73 +128,31 @@ function Dashboard(props) {
                 <ListItemText>হোম</ListItemText>
               </Link>
             </ListItem>
-            <ListItem button onClick={() => history.push(`${url}/pay`)}>
-              <ListItemIcon>
-                <PaymentIcon />
-              </ListItemIcon>
-              <Link to={`${url}/addProduct`} className="drawer-link">
-                <ListItemText>পণ্য যোগ করুন</ListItemText>
-              </Link>
-            </ListItem>
-            <ListItem button onClick={() => history.push(`${url}/myOrders`)}>
+            {/* <ListItem button onClick={() => history.push(`${url}/myOrders`)}>
               <ListItemIcon>
                 <FormatListBulletedIcon />
               </ListItemIcon>
               <Link to={`${url}/mybookings`} className="drawer-link">
                 <ListItemText>আমার বুকিং</ListItemText>
               </Link>
-            </ListItem>
-            <ListItem button onClick={() => history.push(`${url}/pay`)}>
+            </ListItem> */}
+            <ListItem button onClick={() => history.push(`${url}/review`)}>
               <ListItemIcon>
                 <PaymentIcon />
-              </ListItemIcon>
-              <Link to={`${url}/pay`} className="drawer-link">
-                <ListItemText>পেমেন্ট</ListItemText>
-              </Link>
-            </ListItem>
-            <ListItem button onClick={() => history.push(`/review`)}>
-              <ListItemIcon className="drawer-icon">
-                <RateReviewIcon />
               </ListItemIcon>
               <Link to={`${url}/review`} className="drawer-link">
                 <ListItemText>পর্যালোচনা</ListItemText>
               </Link>
             </ListItem>
-          </List>
-        )}
-        {/* admin dashboard starts */}
-        {user.email && admin && (
-          <>
-            <ListItem button onClick={() => history.push("/")}>
-              <ListItemIcon>
-                <HomeIcon />
+            <ListItem button onClick={() => history.push(`/contact`)}>
+              <ListItemIcon className="drawer-icon">
+                <RateReviewIcon />
               </ListItemIcon>
-              <Link to="/" className="drawer-link">
-                <ListItemText>Home</ListItemText>
+              <Link to={`${url}/contact`} className="drawer-link">
+                <ListItemText>যোগাযোগ</ListItemText>
               </Link>
             </ListItem>
-            <List>
-              <ListItem button onClick={() => history.push(`${url}/makeAdmin`)}>
-                <ListItemIcon>
-                  <AdminPanelSettingsIcon />
-                </ListItemIcon>
-                <Link to="" className="drawer-link">
-                  <ListItemText>Make Admin</ListItemText>
-                </Link>
-              </ListItem>
-              <ListItem
-                button
-                onClick={() => history.push(`${url}/addProduct`)}
-              >
-                <ListItemIcon>
-                  <ProductionQuantityLimitsIcon />
-                </ListItemIcon>
-                <Link to={`${url}/addProduct`} className="drawer-link">
-                  <ListItemText>Add Products</ListItemText>
-                </Link>
-              </ListItem>
-            </List>
-          </>
+          </List>
         )}
 
         <Divider />

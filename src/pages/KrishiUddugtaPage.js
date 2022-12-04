@@ -1,30 +1,23 @@
-import React, {Component, Fragment} from 'react';
-import PageTop from "../components/PageTop/PageTop";
+import React, { Component, Fragment } from "react";
+import FarmToProkriti from "../components/FarmToProkriti/FarmToProkriti";
 import Footer from "../components/Footer/Footer";
-import Header from '../components/Header/Header';
-import Orthouddug from '../components/Orthouddug/Orthouddug';
-import FarmToProkriti from '../components/FarmToProkriti/FarmToProkriti';
+import PageTop from "../components/PageTop/PageTop";
 
 class KrishiUddugtaPage extends Component {
-    componentDidMount() {
-        window.scroll(0, 0)
+  componentDidMount() {
+    window.scroll(0, 0);
+  }
+  render() {
+    return (
+      <Fragment>
+        <PageTop pagetitle="ফার্ম টু ডাইনিং" />
+        {/* <Orthouddug /> */}
+        <FarmToProkriti />
 
-    }
-    render() {
-        return (
-            <Fragment>
-                <Header title="ফার্ম টু ডাইনিং"/>
-                <PageTop pagetitle="ফার্ম টু ডাইনিং"/>
-                {/* <Orthouddug /> */}
-                <FarmToProkriti />
-                
-
-                <Footer/>
-
-
-            </Fragment>
-        );
-    }
+        <Footer />
+      </Fragment>
+    );
+  }
 }
 
 export default KrishiUddugtaPage;

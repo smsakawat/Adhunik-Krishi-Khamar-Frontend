@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card, Col, Container, Row } from "react-bootstrap/esm";
 import { Link } from "react-router-dom";
-import Records2 from "./Data2.json";
+import Motamot from "../Motamot/Motamot";
 import "./Nirbacitokhobor.css";
 
 const Nirbacitokhobor = () => {
@@ -49,26 +49,7 @@ const Nirbacitokhobor = () => {
             })}
           </Row>
         </Col>
-        <Col xs={4} md={4}>
-          <h3 className="CardHeadline">মতামত</h3>
-          {Records2.map(({ title, des, picture, _id }) => {
-            return (
-              <Card
-                style={{
-                  width: "18rem",
-                  marginTop: "10px",
-                  borderColor: "white",
-                }}
-              >
-                <Link to="/courseDetails">
-                  <Card.Body>
-                    <Card.Title className="newTitle">{title}</Card.Title>
-                  </Card.Body>
-                </Link>
-              </Card>
-            );
-          })}
-        </Col>
+        <Motamot />
       </Row>
     </Container>
   );

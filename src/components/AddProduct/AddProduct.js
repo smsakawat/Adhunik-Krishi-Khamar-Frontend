@@ -1,12 +1,11 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import useAuth from "../../hooks/useAuth";
 import "./AddProduct.css";
 
 const AddProduct = () => {
   const [error, setError] = useState(false);
   // const [ratingError,setRatingError] = useState(false);
-  const { notify } = useAuth();
   const {
     register,
     handleSubmit,
@@ -18,19 +17,20 @@ const AddProduct = () => {
     setError(false);
     console.log(data);
     if (
-      data.name === "" ||
-      data.img === "" ||
-      data.description === "" ||
-      data.price === ""
+      data.title === "" ||
+      data.category === "" ||
+      data.price === "" ||
+      data.des === "" ||
+      data.picture === ""
     ) {
       setError(true);
       return;
     }
-    // axios.post("http://localhost:5000/addProduct", data).then((res) => {
-    //   if (res.data.insertedId) {
-    //     notify("success", "Cycle Added Successfully");
-    //   }
-    // });
+    axios.post("http://localhost:5000/addProduct", data).then((res) => {
+      if (res.data.insertedId) {
+        alert("Product added successfully!");
+      }
+    });
     reset();
   };
   return (
@@ -56,7 +56,7 @@ const AddProduct = () => {
                 width: "max-content",
               }}
             >
-              Add Product
+              পণ্য যোগ করুন
             </h2>
             <form
               noValidate
@@ -75,14 +75,14 @@ const AddProduct = () => {
 
               <div style={{ margin: "10px 0" }}>
                 <input
-                  {...register("img")}
+                  {...register("picture")}
                   type="url"
                   placeholder="Product Image"
                   className="input-field"
                 />
               </div>
               <input
-                {...register("description")}
+                {...register("des")}
                 type="text"
                 placeholder="Enter Product Description"
                 className="input-field"
@@ -100,7 +100,7 @@ const AddProduct = () => {
                 className="input-field"
               />
 
-              <input type="submit" value="SUBMIT" className="submit-btn" />
+              <input type="submit" value="জমা দিন" className="submit-btn" />
               {error && (
                 <p style={{ color: "red", letterSpacing: "2px" }}>
                   Input filelds cannot be empty

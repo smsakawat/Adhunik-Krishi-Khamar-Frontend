@@ -1,32 +1,24 @@
-import React, {Component, Fragment} from 'react';
-import TopNavigation from "../components/TopNavigation/TopNavigation";
-import PageTop from "../components/PageTop/PageTop";
-import Footer from "../components/Footer/Footer";
+import React, { Component, Fragment } from "react";
 import ContactSection from "../components/ContactSection/ContactSection";
-import Header from '../components/Header/Header';
-import Orthouddug from '../components/Orthouddug/Orthouddug';
+import Footer from "../components/Footer/Footer";
+import PageTop from "../components/PageTop/PageTop";
 
 class ContactPage extends Component {
+  componentDidMount() {
+    window.scroll(0, 0);
+  }
 
-    componentDidMount() {
-        window.scroll(0, 0)
+  render() {
+    return (
+      <Fragment>
+        <PageTop pagetitle="যোগাযোগ করুন" />
+        {/* <Orthouddug /> */}
+        <ContactSection />
 
-    }
-
-    render() {
-        return (
-            <Fragment>
-                <Header title="Contact"/>
-                <PageTop pagetitle="যোগাযোগ করুন"/>
-                {/* <Orthouddug /> */}
-                <ContactSection/>
-
-                <Footer/>
-
-
-            </Fragment>
-        );
-    }
+        <Footer />
+      </Fragment>
+    );
+  }
 }
 
 export default ContactPage;

@@ -3,13 +3,14 @@ import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import { Link, useParams } from "react-router-dom";
-import Header from "../Header/Header";
 import PageTop from "../PageTop/PageTop";
 import "./digitalTechDetails.css";
 
-const DigitalTechDetails = () => {
+const DigitalTechDetails = ({ addToCart }) => {
   const [item, setItem] = useState({});
+  console.log(item);
   const { id } = useParams();
+  console.log(id);
   const { title, des, _id, category, picture, price } = item || {};
   const [showLoader, setShowLoader] = useState(true);
 
@@ -17,6 +18,7 @@ const DigitalTechDetails = () => {
     setShowLoader(true);
     const url = `http://localhost:5000/digitalTechnologies/${id}`;
     axios.get(url).then((res) => {
+      console.log(res.data);
       setItem(res.data);
       setShowLoader(false);
       console.log(res.data);
@@ -24,7 +26,6 @@ const DigitalTechDetails = () => {
   }, [id]);
   return (
     <>
-      <Header />
       <PageTop pagetitle="Details Products" />
       <Container className="EDetais">
         <Link to="/Ecom">
@@ -77,12 +78,19 @@ const DigitalTechDetails = () => {
                     fontWeight: "600",
                   }}
                 >
-                  {price}
+                  ৳{price}
                 </Card.Text>
-                <Button variant="success" style={{ marginRight: "20px" }}>
-                  Buy Now
+                <Link
+                  to={`/buy`}
+                  style={{ textDocoration: "none", color: "#fff" }}
+                >
+                  <Button variant="success" style={{ marginRight: "20px" }}>
+                    Buy Now
+                  </Button>
+                </Link>
+                <Button variant="success" onClick={() => addToCart(_id)}>
+                  Add to Cart
                 </Button>
-                <Button variant="success">Add to Cart</Button>
               </Card.Body>
             </Card>
           </Col>
